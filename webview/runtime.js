@@ -2,7 +2,7 @@ const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
 canvas.width = 500;
-canvas.height = 1000;
+canvas.height = 500;
 
 const gravity = 0.2
 const bouncing = 0.3
