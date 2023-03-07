@@ -1,13 +1,66 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="{{ url_for('static', filename='img/ico.bmp') }}">
-  <title>Hello Flask</title>
+    <meta charset="UTF-8" />
+    <title>WebSocket test</title>
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
+        integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            // Socket.IO Start connect
+            var socket = io.connect();
+            
+            
+            // Socket.IO send message
+            $("#send").click(function (e) {
+                // Send message
+                socket.emit('send', $('#message').val())
+                // Clear input field
+                $('#message').val('')
+            });
+            
+            // Socket.IO get message
+            socket.on('get', function (data) {
+                $('#chat_content').append('<p>I say: ' + data + '</p>');
+            });
+            
+            // Socket.IO get test
+            socket.on("message", function (data) {
+                $('#chat_content').append('<p>System : ' + data + '</p>');
+            });
+            
+            // Socket.IO send test
+            $("#test").click(function (e) {
+                socket.emit('test')
+            });
+        });
+    </script>
 </head>
+
+
 <body>
-  <h1>Hallo</h1>
-  <p>texttexttext</p>
+    <h1>Hello</h1>
+    <h2>WebSocket test</h2>
+    <form>
+        <fieldset>
+            <legend>Message</legend>
+            <input type="text" id="message" name="message" />
+            <input type="button" id="send" value="Send" />
+            <input type="button" id="test" value="Test" />
+        </fieldset>
+    </form>
+    <hr />
+    <div id='chat_content'></div>
 </body>
 </html>
